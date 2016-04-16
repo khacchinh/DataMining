@@ -1,0 +1,9 @@
+E:\Visual Studio 2012\IS\IS\obj\Debug\IS.Form1.resources
+E:\Visual Studio 2012\IS\IS\obj\Debug\IS.Properties.Resources.resources
+E:\Visual Studio 2012\IS\IS\obj\Debug\IS.csproj.GenerateResource.Cache
+E:\Visual Studio 2012\IS\IS\bin\Debug\IS.exe.config
+E:\Visual Studio 2012\IS\IS\bin\Debug\IS.exe
+E:\Visual Studio 2012\IS\IS\bin\Debug\IS.pdb
+E:\Visual Studio 2012\IS\IS\obj\Debug\IS.exe
+E:\Visual Studio 2012\IS\IS\obj\Debug\IS.pdb
+E:\Visual Studio 2012\IS\IS\obj\Debug\IS.csprojResolveAssemblyReference.cache
