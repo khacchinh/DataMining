@@ -23,11 +23,9 @@ namespace IS
                 List<String> arr_header = new List<String>();
                 List<String> arr_data = new List<String>();
                 // Read the file and display it line by line.
-                System.IO.StreamReader file =
-                 new System.IO.StreamReader(path);
+                System.IO.StreamReader file = new System.IO.StreamReader(path);
                 while ((line = file.ReadLine()) != null)
                 {
-                    count++;
                     if (line.Substring(0, 1).Equals("@"))
                         arr_header.Add(line.Substring(1, line.Length - 1));
                     else if (line.Substring(0, 1).Equals("-"))
@@ -39,7 +37,7 @@ namespace IS
                     else
                         arr_data.Add(line);
                 }
-                ins = count;
+                ins = arr_data.Count;
                 list_String.Add(arr_header);
                 list_String.Add(arr_data);
             }

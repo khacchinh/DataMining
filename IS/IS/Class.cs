@@ -9,13 +9,13 @@ namespace IS
     class Class
     {
         private String class_Item;
+        private int counter;
 
         public String Class_Item
         {
             get { return class_Item; }
             set { class_Item = value; }
         }
-        private int counter;
 
         public int Counter
         {

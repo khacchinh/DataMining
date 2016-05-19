@@ -9,14 +9,14 @@ namespace IS
     class Distance
     {
         private double dis;
+        private int index;
 
         public double Dis
         {
             get { return dis; }
             set { dis = value; }
         }
-        private int index;
-
+        
         public int Index
         {
             get { return index; }

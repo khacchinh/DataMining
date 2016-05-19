@@ -7,3 +7,12 @@ E:\Visual Studio 2012\IS\IS\bin\Debug\IS.pdb
 E:\Visual Studio 2012\IS\IS\obj\Debug\IS.exe
 E:\Visual Studio 2012\IS\IS\obj\Debug\IS.pdb
 E:\Visual Studio 2012\IS\IS\obj\Debug\IS.csprojResolveAssemblyReference.cache
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\bin\Debug\IS.exe.config
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\obj\Debug\IS.exe
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\obj\Debug\IS.pdb
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\bin\Debug\IS.exe
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\bin\Debug\IS.pdb
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\obj\Debug\IS.csprojResolveAssemblyReference.cache
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\obj\Debug\IS.Form1.resources
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\obj\Debug\IS.Properties.Resources.resources
+D:\UIT\N3\HK2\Data Mining\Project\DataMining\IS\IS\obj\Debug\IS.csproj.GenerateResource.Cache
