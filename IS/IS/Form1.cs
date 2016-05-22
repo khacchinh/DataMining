@@ -17,7 +17,6 @@ namespace IS
         private int K = 10;
         private static List<Class> class_Items = new List<Class>();
         private List<List<String>> all_data = null;
-        private List<List<String>> all_data_without_class = null;
         private List<Distance> distance;
         private String class_result;
         private List<String> trainData = new List<string>();
@@ -65,7 +64,6 @@ namespace IS
             int ins = 0;
             //class_Items = new List<Class>();
             all_data = ReadFile.readDataFromFile(path, ref ins);
-            all_data_without_class = all_data;
             lblIns.Text = "Instance: " + ins.ToString();
             showClasses();
             addDataToListView();
@@ -97,7 +95,7 @@ namespace IS
                 ListViewItem item = new ListViewItem(arr_line);
                 lvData.Items.Add(item);
             }
-            splitArray(all_data[1], trainData, testData);
+            
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -109,6 +107,15 @@ namespace IS
             lblResult.Text = "Class of test is: ";
             lblTest.Text = "";
             K = Int32.Parse(txtK.Text);
+
+            testDataPredictClass.Clear();
+            testDataTrueClass.Clear();
+            distance.Clear();
+            trainData.Clear();
+            testData.Clear();
+            listView2.Clear();
+
+            splitArray(all_data[1], trainData, testData);
             calculateAccuracy();
 
         }
@@ -118,7 +125,7 @@ namespace IS
             Random ran = new Random();
 
             int trainCount;
-            trainCount = (int) (input.Count() * 0.95) - 1;
+            trainCount = (int) (input.Count() * 0.3) - 1;
             int testCount = input.Count()-trainCount;
            
             List<String> tempi = new List<string>(input);
@@ -130,41 +137,12 @@ namespace IS
                 tempi.RemoveAt(a);
             }
 
-            for (int i = 0; i < testCount; i++)
-            {
-                int a = ran.Next(0, tempi.Count());
-                testData.Add(tempi[a]);
-                tempi.RemoveAt(a);
-            }
-
-            int Se = 0, Vi = 0, Ve = 0;
-            for (int i = 0; i < testData.Count; i++)
-            {
-                string[] temp = testData[i].Split(',');
-                if (temp[temp.Length - 1] == "Iris-setosa")
-                {
-                    Se++;
-                }
-                if (temp[temp.Length - 1] == "Iris-versicolor")
-                {
-                    Ve++;
-                }
-                if (temp[temp.Length - 1] == "Iris-virginica")
-                {
-                    Vi++;
-                }
-            }
-            string fortest = testData.Last().ToString();
-            Console.Write(Se);
-            Console.Write(Ve);
-            Console.Write(Vi);
+            testData.AddRange(tempi);
         }
 
         private void calculateAccuracy()
         {
             distance = new List<Distance>();
-
-            splitArray(all_data[1], trainData, testData);
 
             // lấy class thật vào array
             for (int i = 0; i < testData.Count; i++)
@@ -179,11 +157,6 @@ namespace IS
                 testDataPredictClass.Add(caculateDistance(trainData, distance, testData[i]));
                 class_result = null;
             }
-
-            //đếm coi đủ dòng chưa
-            //lblIns.Text = testDataPredictClass.Count.ToString();
-            //lblClass.Text = testDataTrueClass.Count.ToString();
-
 
             //show
             listView2.Items.Clear();
@@ -209,9 +182,8 @@ namespace IS
                 listView2.Items.Add(item);
                 a.Clear();
             }
-            //lblAcc.Text += (count).ToString();
-            lblAcc.Text += ((float)count / (float)testDataPredictClass.Count).ToString();     
-            lblAcc.Text += "  /  " + count.ToString() + "  /  " + testDataPredictClass.Count.ToString();
+            float acc = ((float)count / (float)testDataPredictClass.Count);
+            lblAcc.Text = "Accuracy: " + acc.ToString() + "   /  " + count.ToString() + "  /  " + testDataPredictClass.Count.ToString();
 
             
         }
@@ -235,11 +207,12 @@ namespace IS
                         dis += Math.Pow(Double.Parse(arr_test[j]) - temp_d, 2);
                     else if (!arr_test[j].Equals(arr_data[j]))
                         dis++;
-                    dis = Math.Sqrt(dis);
+                    //dis = Math.Sqrt(dis);
                 }
                 dis_obj.Dis = dis;
                 dis_obj.Index = i;
                 distance.Add(dis_obj);
+                
             }
         }
 
@@ -344,6 +317,7 @@ namespace IS
 
         private void btn_Test1_Click(object sender, EventArgs e)
         {
+            splitArray(all_data[1], trainData, testData);
             distance = new List<Distance>();
             class_result = "";
             //test = "";
@@ -359,7 +333,7 @@ namespace IS
                 //test = txtTest.Text;
                 K = Int32.Parse(txtK.Text);
                 caculateDistance(trainData, distance, txtTest.Text);
-                getResultMining(trainData, distance);
+                //getResultMining(trainData, distance);
                 getResultToForm();
             }
         }
