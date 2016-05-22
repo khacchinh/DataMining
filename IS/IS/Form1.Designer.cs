@@ -47,6 +47,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblIns = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblAcc = new System.Windows.Forms.Label();
+            this.btn_Test1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -56,7 +58,7 @@
             // 
             this.txtOpenFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOpenFile.Location = new System.Drawing.Point(11, 12);
-            this.txtOpenFile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtOpenFile.Margin = new System.Windows.Forms.Padding(2);
             this.txtOpenFile.Multiline = true;
             this.txtOpenFile.Name = "txtOpenFile";
             this.txtOpenFile.Size = new System.Drawing.Size(288, 33);
@@ -71,7 +73,7 @@
             this.opneFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.opneFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.opneFile.Location = new System.Drawing.Point(316, 12);
-            this.opneFile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.opneFile.Margin = new System.Windows.Forms.Padding(2);
             this.opneFile.Name = "opneFile";
             this.opneFile.Size = new System.Drawing.Size(38, 32);
             this.opneFile.TabIndex = 1;
@@ -82,7 +84,7 @@
             // 
             this.txtTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTest.Location = new System.Drawing.Point(11, 50);
-            this.txtTest.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTest.Margin = new System.Windows.Forms.Padding(2);
             this.txtTest.Multiline = true;
             this.txtTest.Name = "txtTest";
             this.txtTest.Size = new System.Drawing.Size(345, 30);
@@ -93,16 +95,17 @@
             // 
             this.txtK.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtK.Location = new System.Drawing.Point(111, 86);
-            this.txtK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtK.Margin = new System.Windows.Forms.Padding(2);
             this.txtK.Multiline = true;
             this.txtK.Name = "txtK";
             this.txtK.Size = new System.Drawing.Size(45, 30);
             this.txtK.TabIndex = 3;
+            this.txtK.Text = "1";
             // 
             // lvData
             // 
             this.lvData.Location = new System.Drawing.Point(12, 49);
-            this.lvData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lvData.Margin = new System.Windows.Forms.Padding(2);
             this.lvData.Name = "lvData";
             this.lvData.Size = new System.Drawing.Size(372, 235);
             this.lvData.TabIndex = 4;
@@ -117,21 +120,22 @@
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.Location = new System.Drawing.Point(314, 6);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(70, 32);
             this.btnStart.TabIndex = 5;
-            this.btnStart.Text = "Start";
+            this.btnStart.Text = "Accuracy";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lblAcc);
             this.panel1.Controls.Add(this.lblTest);
             this.panel1.Controls.Add(this.lblResult);
             this.panel1.Controls.Add(this.listView2);
             this.panel1.Location = new System.Drawing.Point(408, 10);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(322, 448);
             this.panel1.TabIndex = 7;
@@ -160,7 +164,7 @@
             // listView2
             // 
             this.listView2.Location = new System.Drawing.Point(2, 128);
-            this.listView2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listView2.Margin = new System.Windows.Forms.Padding(2);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(318, 318);
             this.listView2.TabIndex = 6;
@@ -176,7 +180,7 @@
             this.panel2.Controls.Add(this.txtK);
             this.panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel2.Location = new System.Drawing.Point(9, 10);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(394, 158);
             this.panel2.TabIndex = 8;
@@ -203,12 +207,13 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btn_Test1);
             this.panel3.Controls.Add(this.lblIns);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.lvData);
             this.panel3.Controls.Add(this.btnStart);
             this.panel3.Location = new System.Drawing.Point(9, 173);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(394, 285);
             this.panel3.TabIndex = 9;
@@ -235,6 +240,33 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Data - ";
             // 
+            // lblAcc
+            // 
+            this.lblAcc.AutoSize = true;
+            this.lblAcc.Location = new System.Drawing.Point(12, 92);
+            this.lblAcc.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAcc.Name = "lblAcc";
+            this.lblAcc.Size = new System.Drawing.Size(55, 13);
+            this.lblAcc.TabIndex = 6;
+            this.lblAcc.Text = "Accuracy:";
+            // 
+            // btn_Test1
+            // 
+            this.btn_Test1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btn_Test1.FlatAppearance.BorderSize = 0;
+            this.btn_Test1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btn_Test1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btn_Test1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Test1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Test1.Location = new System.Drawing.Point(240, 7);
+            this.btn_Test1.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_Test1.Name = "btn_Test1";
+            this.btn_Test1.Size = new System.Drawing.Size(70, 32);
+            this.btn_Test1.TabIndex = 7;
+            this.btn_Test1.Text = "Test 1";
+            this.btn_Test1.UseVisualStyleBackColor = true;
+            this.btn_Test1.Click += new System.EventHandler(this.btn_Test1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -243,7 +275,7 @@
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
@@ -285,6 +317,8 @@
         private System.Windows.Forms.Label lblTest;
         private System.Windows.Forms.Label lblClass;
         private System.Windows.Forms.Label lblIns;
+        private System.Windows.Forms.Label lblAcc;
+        private System.Windows.Forms.Button btn_Test1;
     }
 }
 

@@ -12,7 +12,7 @@ namespace IS
 {
     public partial class Form1 : Form
     {
-        private String test;
+        //private String test;
         private String path = "";
         private int K = 10;
         private static List<Class> class_Items = new List<Class>();
@@ -20,10 +20,10 @@ namespace IS
         private List<List<String>> all_data_without_class = null;
         private List<Distance> distance;
         private String class_result;
-        List<String> trainData = new List<string>();
-        List<String> testData = new List<string>();
-        List<String> testDataTrueClass = new List<string>();
-        List<String> testDataPredictClass = new List<string>();
+        private List<String> trainData = new List<string>();
+        private List<String> testData = new List<string>();
+        private List<String> testDataTrueClass = new List<string>();
+        private List<String> testDataPredictClass = new List<string>();
 
 
 
@@ -59,6 +59,7 @@ namespace IS
                 readFile();
             }
         }
+
         private void readFile()
         {
             int ins = 0;
@@ -96,102 +97,144 @@ namespace IS
                 ListViewItem item = new ListViewItem(arr_line);
                 lvData.Items.Add(item);
             }
-            txtTest.Text = all_data[1][1];
-            calculateAccuracy();
+            //txtTest.Text = all_data[1][1];
+            //calculateAccuracy();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
             distance = new List<Distance>();
             class_result = "";
-            test = "";
+            //test = "";
             K = 0;
             lblResult.Text = "Class of test is: ";
             lblTest.Text = "";
-            if (txtTest.Text.Equals(""))
-                MessageBox.Show("Test NULL");
-            else if (txtK.Text.Equals(""))
-                MessageBox.Show("K NULL");
-            else
+            K = Int32.Parse(txtK.Text);
+            calculateAccuracy();
+
+        }
+
+        private void splitArray(List<String> input, List<String> trainData, List<String> testData)
+        {            
+            Random ran = new Random();
+
+            int trainCount;
+            trainCount = (int) (input.Count() * 0.7) - 1;
+            int testCount = input.Count()-trainCount;
+           
+            for (int i = 0; i < input.Count; i++)
             {
-                test = txtTest.Text;
-                K = Int32.Parse(txtK.Text);
-                caculateDistance(all_data, distance);
-                //caculatorDistance(all_data, distance);
-                getResultMining(all_data, distance);
+                if (ran.Next(0, 2) == 0)
+                {
+                    if (trainData.Count < trainCount)
+                        trainData.Add(input[i]);
+                    else
+                        testData.Add(input[i]);
+                }
+                else
+                {
+                    if (testData.Count < testCount)
+                        testData.Add(input[i]);
+                    else
+                        trainData.Add(input[i]);
+                }
             }
 
+            int Se = 0, Vi = 0, Ve = 0;
+            for (int i = 0; i < testData.Count; i++)
+            {
+                string[] temp = testData[i].Split(',');
+                if (temp[temp.Length - 1] == "Iris-setosa")
+                {
+                    Se++;
+                }
+                if (temp[temp.Length - 1] == "Iris-versicolor")
+                {
+                    Ve++;
+                }
+                if (temp[temp.Length - 1] == "Iris-virginica")
+                {
+                    Vi++;
+                }
+            }
+            Console.Write(Se);
+            Console.Write(Ve);
+            Console.Write(Vi);
+            
         }
 
         private void calculateAccuracy()
         {
-            
+            distance = new List<Distance>();
 
-            // get data to train and test array
-            for (int i = 0; i < all_data[1].Count; i++)
-            {
-                if (i <= (all_data[1].Count * 0.7)-1)
-                {
-                    trainData.Add(all_data[1][i]);
-                    ListViewItem item = new ListViewItem(trainData.Last());
-                    //listView2.Items.Add(item);
-                }
-                else
-                {
-                    testData.Add(all_data[1][i]);
-                    ListViewItem item = new ListViewItem(testData.Last());
-                    //listView2.Items.Add(item);
-                }
-            }
+            splitArray(all_data[1], trainData, testData);
 
             // lấy class thật vào array
-            for (int i = 0; i < all_data[1].Count; i++)
-            {
-                string[] temp = testData[1].Split(',');
-                testDataTrueClass.Add(temp[temp.Length-1]);
-                ListViewItem item = new ListViewItem(testDataTrueClass.Last());
-                listView2.Items.Add(item);
-            }
-
-            // mỗi dòng trong test
             for (int i = 0; i < testData.Count; i++)
             {
-                // viết cho tui hàm getClassOfInstance();
-                //testDataPredictClass[i] = getClassOfInstance(trainData,testData[i]);
-                //if (testDataPredictClass[i] == testDataTrueClass[i])
-                
-                    
+                string[] temp = testData[i].Split(',');
+                testDataTrueClass.Add(temp[temp.Length-1]);
             }
-            
 
+            // predict class
+            for (int i = 0; i < testData.Count; i++)
+            {
+                testDataPredictClass.Add(caculateDistance(trainData, distance, testData[i]));
+                class_result = null;
+            }
+
+            //đếm coi đủ dòng chưa
+            //lblIns.Text = testDataPredictClass.Count.ToString();
+            //lblClass.Text = testDataTrueClass.Count.ToString();
+
+
+            int count = 0;
+            for (int i = 0; i < testDataPredictClass.Count; i++)
+            {
+                if (testDataPredictClass[i].ToString() == testDataTrueClass[i].ToString())
+                    count++;
+                //ListViewItem item = new ListViewItem(testDataPredictClass[i].ToString());
+                //listView2.Items.Add(item);
+                //ListViewItem item3 = new ListViewItem("T"+testDataTrueClass[i]);
+                //listView2.Items.Add(item3);
+            }
+            //lblAcc.Text += (count).ToString();
+            lblAcc.Text += ((float)count / (float)testDataPredictClass.Count).ToString();     
+            lblAcc.Text += "  /  " + count.ToString() + "  /  " + testDataPredictClass.Count.ToString();
         }
-
-        private void caculateDistance(List<List<String>> list_String, List<Distance> distance)
+        
+        private void calculateMinFucDis(List<String> trainData, List<Distance> distance,String testString)
         {
-            String[] arr_data = null, arr_test = test.Split(',');
+            String[] arr_data = null, arr_test = testString.Split(',');
 
             int temp_i;
             double temp_d;
-            ////// thêm điều kiện ko có file, dữ liệu sai....
-            for (int i = 0; i < list_String[1].Count; i++)
+            for (int i = 0; i < trainData.Count; i++)
             {
                 Distance dis_obj = new Distance();
                 double dis = 0.0;
-                arr_data = list_String[1][i].Split(',');
+                arr_data = trainData[i].Split(',');
                 for (int j = 0; j < arr_data.Length - 1; j++)
                 {
                     if (Int32.TryParse(arr_data[j], out temp_i))
-                        dis += Math.Pow(Int32.Parse(arr_test[j]) - temp_i, 2);
+                        dis  += Math.Pow(Int32.Parse(arr_test[j]) - temp_i, 2);
                     else if (Double.TryParse(arr_data[j], out temp_d))
                         dis += Math.Pow(Double.Parse(arr_test[j]) - temp_d, 2);
                     else if (!arr_test[j].Equals(arr_data[j]))
                         dis++;
+                    dis = Math.Sqrt(dis);
                 }
                 dis_obj.Dis = dis;
                 dis_obj.Index = i;
                 distance.Add(dis_obj);
             }
+        }
+
+        private String caculateDistance(List<String> trainData, List<Distance> distance, String testString)
+        {
+            calculateMinFucDis(trainData, distance ,testString);
             sortDistance(distance);
+            return getResultMining(trainData, distance);
         }
 
         private void sortDistance(List<Distance> distance)
@@ -211,12 +254,12 @@ namespace IS
             }
         }
 
-        private void getResultMining(List<List<String>> list_String, List<Distance> distance)
+        private String getResultMining(List<String> list_String, List<Distance> distance)
         {
             //đếm số lượng từng class trong khoảng k
             for (int i = 0; i < K; i++)
             {
-                String[] str = list_String[1][distance[i].Index].Split(',');
+                String[] str = list_String[distance[i].Index].Split(',');
                 for (int j = 0; j < class_Items.Count; j++)
                 {
                     if (class_Items[j].Class_Item.Equals(str[str.Length - 1]))
@@ -258,7 +301,7 @@ namespace IS
                     double temp = 0.0;
                     for (int j = 0; j < K; j++)
                     {
-                        String[] str = list_String[1][distance[j].Index].Split(',');
+                        String[] str = list_String[distance[j].Index].Split(',');
                         if (class_Items[Int32.Parse(str_test[i])].Class_Item.Equals(str[str.Length - 1]))
                         {
                             temp += distance[j].Dis;
@@ -271,12 +314,41 @@ namespace IS
                         index = Int32.Parse(str_test[i]);
                     }
                 }
-                class_result = class_Items[index].Class_Item;
+                class_result = class_Items[index].Class_Item;   
             }
+            distance.Clear();
+            //return class_Items[index].Class_Item;
+            return class_result;
+        }
+
+        private void getResultToForm()
+        {
             lblResult.Text = "Class of test is: " + class_result;
             lblTest.Text = "Test: " + txtTest.Text;
             for (int i = 0; i < class_Items.Count; i++)
                 class_Items[i].Counter = 0;
+        }
+
+        private void btn_Test1_Click(object sender, EventArgs e)
+        {
+            distance = new List<Distance>();
+            class_result = "";
+            //test = "";
+            K = 0;
+            lblResult.Text = "Class of test is: ";
+            lblTest.Text = "";
+            if (txtTest.Text.Equals(""))
+                MessageBox.Show("Test NULL");
+            else if (txtK.Text.Equals(""))
+                MessageBox.Show("K NULL");
+            else
+            {
+                //test = txtTest.Text;
+                K = Int32.Parse(txtK.Text);
+                caculateDistance(all_data[1], distance, txtTest.Text);
+                getResultMining(all_data[1], distance);
+                getResultToForm();
+            }
         }
 
     }
