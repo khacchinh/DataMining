@@ -117,7 +117,6 @@ namespace IS
 
             splitArray(all_data[1], trainData, testData);
             calculateAccuracy();
-
         }
 
         private void splitArray(List<String> input, List<String> trainData, List<String> testData)
@@ -158,6 +157,18 @@ namespace IS
                 class_result = null;
             }
 
+            // create confusion matrix
+            List<MatrixCell> confusion_matrix = new List<MatrixCell>();
+            int class_num = class_Items.Count();
+            for (int i = 0; i < class_num; i++)
+                for (int j = 0; j < class_num; j++)
+                {
+                    MatrixCell mc = new MatrixCell();
+                    mc.True_Class = class_Items[i].Class_Item.ToString();
+                    mc.Predict_Class = class_Items[j].Class_Item.ToString();
+                    confusion_matrix.Add(mc);
+                }
+
             //show
             listView2.Items.Clear();
             listView2.View = View.Details;
@@ -168,19 +179,28 @@ namespace IS
             listView2.Columns.Add("True class", 67);
             listView2.Columns.Add("==", 67);
 
-            List<String> a = new List<string>();
+            
+
+            List<String> row = new List<string>();
             int count = 0;
             for (int i = 0; i < testDataPredictClass.Count; i++)
             {
-                if (testDataPredictClass[i].ToString() == testDataTrueClass[i].ToString())
+                //đếm số đoán đúng
+                if (testDataPredictClass[i] == testDataTrueClass[i])
                     count++;
 
-                a.Add(testDataPredictClass[i].ToString());
-                a.Add(testDataTrueClass[i].ToString());
-                a.Add(count.ToString());
-                ListViewItem item = new ListViewItem(a.ToArray());
+                //thêm vào ma trận
+                for (int k = 0; k < confusion_matrix.Count(); k++)
+                    if (confusion_matrix[k].True_Class == testDataTrueClass[i]
+                        && confusion_matrix[k].Predict_Class == testDataPredictClass[i])
+                        confusion_matrix[k].Count++;
+
+                row.Add(testDataPredictClass[i].ToString());
+                row.Add(testDataTrueClass[i].ToString());
+                row.Add(count.ToString());
+                ListViewItem item = new ListViewItem(row.ToArray());
                 listView2.Items.Add(item);
-                a.Clear();
+                row.Clear();
             }
             float acc = ((float)count / (float)testDataPredictClass.Count);
             lblAcc.Text = "Accuracy: " + acc.ToString() + "   /  " + count.ToString() + "  /  " + testDataPredictClass.Count.ToString();
