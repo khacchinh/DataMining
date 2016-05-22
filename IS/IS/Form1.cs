@@ -97,8 +97,7 @@ namespace IS
                 ListViewItem item = new ListViewItem(arr_line);
                 lvData.Items.Add(item);
             }
-            //txtTest.Text = all_data[1][1];
-            //calculateAccuracy();
+            splitArray(all_data[1], trainData, testData);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -119,25 +118,23 @@ namespace IS
             Random ran = new Random();
 
             int trainCount;
-            trainCount = (int) (input.Count() * 0.7) - 1;
+            trainCount = (int) (input.Count() * 0.95) - 1;
             int testCount = input.Count()-trainCount;
            
-            for (int i = 0; i < input.Count; i++)
+            List<String> tempi = new List<string>(input);
+
+            for (int i = 0; i < trainCount; i++)
             {
-                if (ran.Next(0, 2) == 0)
-                {
-                    if (trainData.Count < trainCount)
-                        trainData.Add(input[i]);
-                    else
-                        testData.Add(input[i]);
-                }
-                else
-                {
-                    if (testData.Count < testCount)
-                        testData.Add(input[i]);
-                    else
-                        trainData.Add(input[i]);
-                }
+                int a = ran.Next(0, tempi.Count());
+                trainData.Add(tempi[a]);
+                tempi.RemoveAt(a);
+            }
+
+            for (int i = 0; i < testCount; i++)
+            {
+                int a = ran.Next(0, tempi.Count());
+                testData.Add(tempi[a]);
+                tempi.RemoveAt(a);
             }
 
             int Se = 0, Vi = 0, Ve = 0;
@@ -157,10 +154,10 @@ namespace IS
                     Vi++;
                 }
             }
+            string fortest = testData.Last().ToString();
             Console.Write(Se);
             Console.Write(Ve);
             Console.Write(Vi);
-            
         }
 
         private void calculateAccuracy()
@@ -188,19 +185,35 @@ namespace IS
             //lblClass.Text = testDataTrueClass.Count.ToString();
 
 
+            //show
+            listView2.Items.Clear();
+            listView2.View = View.Details;
+            listView2.GridLines = true;
+            listView2.FullRowSelect = true;
+
+            listView2.Columns.Add("Predict class", 67);
+            listView2.Columns.Add("True class", 67);
+            listView2.Columns.Add("==", 67);
+
+            List<String> a = new List<string>();
             int count = 0;
             for (int i = 0; i < testDataPredictClass.Count; i++)
             {
                 if (testDataPredictClass[i].ToString() == testDataTrueClass[i].ToString())
                     count++;
-                //ListViewItem item = new ListViewItem(testDataPredictClass[i].ToString());
-                //listView2.Items.Add(item);
-                //ListViewItem item3 = new ListViewItem("T"+testDataTrueClass[i]);
-                //listView2.Items.Add(item3);
+
+                a.Add(testDataPredictClass[i].ToString());
+                a.Add(testDataTrueClass[i].ToString());
+                a.Add(count.ToString());
+                ListViewItem item = new ListViewItem(a.ToArray());
+                listView2.Items.Add(item);
+                a.Clear();
             }
             //lblAcc.Text += (count).ToString();
             lblAcc.Text += ((float)count / (float)testDataPredictClass.Count).ToString();     
             lblAcc.Text += "  /  " + count.ToString() + "  /  " + testDataPredictClass.Count.ToString();
+
+            
         }
         
         private void calculateMinFucDis(List<String> trainData, List<Distance> distance,String testString)
@@ -345,8 +358,8 @@ namespace IS
             {
                 //test = txtTest.Text;
                 K = Int32.Parse(txtK.Text);
-                caculateDistance(all_data[1], distance, txtTest.Text);
-                getResultMining(all_data[1], distance);
+                caculateDistance(trainData, distance, txtTest.Text);
+                getResultMining(trainData, distance);
                 getResultToForm();
             }
         }
