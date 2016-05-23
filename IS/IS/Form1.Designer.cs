@@ -38,6 +38,7 @@
             this.lvData = new System.Windows.Forms.ListView();
             this.btnStart = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblAcc = new System.Windows.Forms.Label();
             this.lblTest = new System.Windows.Forms.Label();
             this.lblResult = new System.Windows.Forms.Label();
             this.listView2 = new System.Windows.Forms.ListView();
@@ -45,10 +46,10 @@
             this.lblClass = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btn_Test1 = new System.Windows.Forms.Button();
             this.lblIns = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.lblAcc = new System.Windows.Forms.Label();
-            this.btn_Test1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -89,7 +90,7 @@
             this.txtTest.Name = "txtTest";
             this.txtTest.Size = new System.Drawing.Size(345, 30);
             this.txtTest.TabIndex = 2;
-            this.txtTest.Text = "Insert 1 instance for test here!!";
+            this.txtTest.Text = "4.9,3.0,1.4,0.2";
             // 
             // txtK
             // 
@@ -130,6 +131,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.lblAcc);
             this.panel1.Controls.Add(this.lblTest);
             this.panel1.Controls.Add(this.lblResult);
@@ -139,6 +141,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(322, 448);
             this.panel1.TabIndex = 7;
+            // 
+            // lblAcc
+            // 
+            this.lblAcc.AutoSize = true;
+            this.lblAcc.Location = new System.Drawing.Point(12, 92);
+            this.lblAcc.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAcc.Name = "lblAcc";
+            this.lblAcc.Size = new System.Drawing.Size(55, 13);
+            this.lblAcc.TabIndex = 6;
+            this.lblAcc.Text = "Accuracy:";
             // 
             // lblTest
             // 
@@ -218,6 +230,23 @@
             this.panel3.Size = new System.Drawing.Size(394, 285);
             this.panel3.TabIndex = 9;
             // 
+            // btn_Test1
+            // 
+            this.btn_Test1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btn_Test1.FlatAppearance.BorderSize = 0;
+            this.btn_Test1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btn_Test1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btn_Test1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Test1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Test1.Location = new System.Drawing.Point(240, 7);
+            this.btn_Test1.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_Test1.Name = "btn_Test1";
+            this.btn_Test1.Size = new System.Drawing.Size(70, 32);
+            this.btn_Test1.TabIndex = 7;
+            this.btn_Test1.Text = "Test 1";
+            this.btn_Test1.UseVisualStyleBackColor = true;
+            this.btn_Test1.Click += new System.EventHandler(this.btn_Test1_Click);
+            // 
             // lblIns
             // 
             this.lblIns.AutoSize = true;
@@ -240,32 +269,14 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Data - ";
             // 
-            // lblAcc
+            // label1
             // 
-            this.lblAcc.AutoSize = true;
-            this.lblAcc.Location = new System.Drawing.Point(12, 92);
-            this.lblAcc.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblAcc.Name = "lblAcc";
-            this.lblAcc.Size = new System.Drawing.Size(55, 13);
-            this.lblAcc.TabIndex = 6;
-            this.lblAcc.Text = "Accuracy:";
-            // 
-            // btn_Test1
-            // 
-            this.btn_Test1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btn_Test1.FlatAppearance.BorderSize = 0;
-            this.btn_Test1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.btn_Test1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btn_Test1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Test1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Test1.Location = new System.Drawing.Point(240, 7);
-            this.btn_Test1.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_Test1.Name = "btn_Test1";
-            this.btn_Test1.Size = new System.Drawing.Size(70, 32);
-            this.btn_Test1.TabIndex = 7;
-            this.btn_Test1.Text = "Test 1";
-            this.btn_Test1.UseVisualStyleBackColor = true;
-            this.btn_Test1.Click += new System.EventHandler(this.btn_Test1_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(18, 76);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Number of class: ";
             // 
             // Form1
             // 
@@ -319,6 +330,7 @@
         private System.Windows.Forms.Label lblIns;
         private System.Windows.Forms.Label lblAcc;
         private System.Windows.Forms.Button btn_Test1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

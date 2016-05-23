@@ -124,7 +124,7 @@ namespace IS
             Random ran = new Random();
 
             int trainCount;
-            trainCount = (int) (input.Count() * 0.3) - 1;
+            trainCount = (int) (input.Count() * 0.7) - 1;
             int testCount = input.Count()-trainCount;
            
             List<String> tempi = new List<string>(input);
@@ -137,6 +137,23 @@ namespace IS
             }
 
             testData.AddRange(tempi);
+            
+            int se = 0;
+            int ve = 0;
+            int vi = 0;
+
+            for (int i = 0; i < testData.Count(); i++)
+            {
+                string[] temp = testData[i].Split(',');
+                if (temp[temp.Length - 1] == "Iris-setosa")
+                    se++;
+                if (temp[temp.Length - 1] == "Iris-versicolor")
+                    ve++;
+                if (temp[temp.Length - 1] == "Iris-virginica")
+                    vi++;
+            }
+
+            label1.Text = "Number of test classes: Se " + se + "  Ve " + ve + "  Vi " + vi;
         }
 
         private void calculateAccuracy()
@@ -170,16 +187,49 @@ namespace IS
                 }
 
             //show
+            //listView2.Items.Clear();
+            //listView2.View = View.Details;
+            //listView2.GridLines = true;
+            //listView2.FullRowSelect = true;
+
+            //listView2.Columns.Add("Predict class", 67);
+            //listView2.Columns.Add("True class", 67);
+            //listView2.Columns.Add("==", 67);
+
+            
+
+            //List<String> row = new List<string>();
+            //int count = 0;
+            //for (int i = 0; i < testDataPredictClass.Count; i++)
+            //{
+            //    //đếm số đoán đúng
+            //    if (testDataPredictClass[i] == testDataTrueClass[i])
+            //        count++;
+
+            //    //thêm vào ma trận
+            //    for (int k = 0; k < confusion_matrix.Count(); k++)
+            //        if (confusion_matrix[k].True_Class == testDataTrueClass[i]
+            //            && confusion_matrix[k].Predict_Class == testDataPredictClass[i])
+            //            confusion_matrix[k].Count++;
+
+            //    row.Add(testDataPredictClass[i].ToString());
+            //    row.Add(testDataTrueClass[i].ToString());
+            //    row.Add(count.ToString());
+            //    ListViewItem item = new ListViewItem(row.ToArray());
+            //    listView2.Items.Add(item);
+            //    row.Clear();
+            //}
+
             listView2.Items.Clear();
             listView2.View = View.Details;
             listView2.GridLines = true;
             listView2.FullRowSelect = true;
 
-            listView2.Columns.Add("Predict class", 67);
-            listView2.Columns.Add("True class", 67);
-            listView2.Columns.Add("==", 67);
+            for (int i = 0; i < class_Items.Count; i++) //header
+            {
+                listView2.Columns.Add(class_Items[i].Class_Item.ToString(), 67);
+            }
 
-            
 
             List<String> row = new List<string>();
             int count = 0;
@@ -194,14 +244,23 @@ namespace IS
                     if (confusion_matrix[k].True_Class == testDataTrueClass[i]
                         && confusion_matrix[k].Predict_Class == testDataPredictClass[i])
                         confusion_matrix[k].Count++;
-
-                row.Add(testDataPredictClass[i].ToString());
-                row.Add(testDataTrueClass[i].ToString());
-                row.Add(count.ToString());
-                ListViewItem item = new ListViewItem(row.ToArray());
-                listView2.Items.Add(item);
-                row.Clear();
             }
+
+            int run = 0;
+
+            for (int i = 0; i < confusion_matrix.Count(); i++)
+            {
+                row.Add(confusion_matrix[i].Count.ToString());
+                run++;
+                if (run == class_num)
+                {
+                    ListViewItem item = new ListViewItem(row.ToArray());
+                    listView2.Items.Add(item);
+                    row.Clear();
+                    run = 0;
+                }
+            }
+
             float acc = ((float)count / (float)testDataPredictClass.Count);
             lblAcc.Text = "Accuracy: " + acc.ToString() + "   /  " + count.ToString() + "  /  " + testDataPredictClass.Count.ToString();
 
@@ -232,7 +291,6 @@ namespace IS
                 dis_obj.Dis = dis;
                 dis_obj.Index = i;
                 distance.Add(dis_obj);
-                
             }
         }
 
@@ -337,6 +395,10 @@ namespace IS
 
         private void btn_Test1_Click(object sender, EventArgs e)
         {
+            testDataPredictClass.Clear();
+            testDataTrueClass.Clear();
+            trainData.Clear();
+            testData.Clear();
             splitArray(all_data[1], trainData, testData);
             distance = new List<Distance>();
             class_result = "";
