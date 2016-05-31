@@ -38,6 +38,7 @@
             this.lvData = new System.Windows.Forms.ListView();
             this.btnStart = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblAcc = new System.Windows.Forms.Label();
             this.lblTest = new System.Windows.Forms.Label();
             this.lblResult = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@
             this.btn_Test1 = new System.Windows.Forms.Button();
             this.lblIns = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -101,7 +101,7 @@
             this.txtK.Name = "txtK";
             this.txtK.Size = new System.Drawing.Size(45, 30);
             this.txtK.TabIndex = 3;
-            this.txtK.Text = "1";
+            this.txtK.Text = "12";
             // 
             // lvData
             // 
@@ -141,6 +141,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(322, 448);
             this.panel1.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(18, 76);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Number of class: ";
             // 
             // lblAcc
             // 
@@ -268,15 +277,6 @@
             this.label2.Size = new System.Drawing.Size(52, 19);
             this.label2.TabIndex = 5;
             this.label2.Text = "Data - ";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 76);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Number of class: ";
             // 
             // Form1
             // 

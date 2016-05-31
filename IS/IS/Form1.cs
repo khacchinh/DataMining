@@ -18,11 +18,13 @@ namespace IS
         private static List<Class> class_Items = new List<Class>();
         private List<List<String>> all_data = null;
         private List<Distance> distance;
+        private List<Distance> tempdistance;
         private String class_result;
         private List<String> trainData = new List<string>();
         private List<String> testData = new List<string>();
         private List<String> testDataTrueClass = new List<string>();
         private List<String> testDataPredictClass = new List<string>();
+        private List<double> validity = new List<double>();
 
 
 
@@ -116,6 +118,7 @@ namespace IS
             listView2.Clear();
 
             splitArray(all_data[1], trainData, testData);
+            calculateValidity();
             calculateAccuracy();
         }
 
@@ -124,7 +127,7 @@ namespace IS
             Random ran = new Random();
 
             int trainCount;
-            trainCount = (int) (input.Count() * 0.7) - 1;
+            trainCount = (int) (input.Count() * 0.9) - 1;
             int testCount = input.Count()-trainCount;
            
             List<String> tempi = new List<string>(input);
@@ -154,6 +157,7 @@ namespace IS
             }
 
             label1.Text = "Number of test classes: Se " + se + "  Ve " + ve + "  Vi " + vi;
+
         }
 
         private void calculateAccuracy()
@@ -170,9 +174,11 @@ namespace IS
             // predict class
             for (int i = 0; i < testData.Count; i++)
             {
-                testDataPredictClass.Add(caculateDistance(trainData, distance, testData[i]));
+                String PC = caculateDistanceWithValidity(trainData, distance, testData[i]);
+                testDataPredictClass.Add(PC);
                 class_result = null;
             }
+            validity.Clear();
 
             // create confusion matrix
             List<MatrixCell> confusion_matrix = new List<MatrixCell>();
@@ -185,40 +191,6 @@ namespace IS
                     mc.Predict_Class = class_Items[j].Class_Item.ToString();
                     confusion_matrix.Add(mc);
                 }
-
-            //show
-            //listView2.Items.Clear();
-            //listView2.View = View.Details;
-            //listView2.GridLines = true;
-            //listView2.FullRowSelect = true;
-
-            //listView2.Columns.Add("Predict class", 67);
-            //listView2.Columns.Add("True class", 67);
-            //listView2.Columns.Add("==", 67);
-
-            
-
-            //List<String> row = new List<string>();
-            //int count = 0;
-            //for (int i = 0; i < testDataPredictClass.Count; i++)
-            //{
-            //    //đếm số đoán đúng
-            //    if (testDataPredictClass[i] == testDataTrueClass[i])
-            //        count++;
-
-            //    //thêm vào ma trận
-            //    for (int k = 0; k < confusion_matrix.Count(); k++)
-            //        if (confusion_matrix[k].True_Class == testDataTrueClass[i]
-            //            && confusion_matrix[k].Predict_Class == testDataPredictClass[i])
-            //            confusion_matrix[k].Count++;
-
-            //    row.Add(testDataPredictClass[i].ToString());
-            //    row.Add(testDataTrueClass[i].ToString());
-            //    row.Add(count.ToString());
-            //    ListViewItem item = new ListViewItem(row.ToArray());
-            //    listView2.Items.Add(item);
-            //    row.Clear();
-            //}
 
             listView2.Items.Clear();
             listView2.View = View.Details;
@@ -266,8 +238,8 @@ namespace IS
 
             
         }
-        
-        private void calculateMinFucDis(List<String> trainData, List<Distance> distance,String testString)
+
+        private void calculateMinFucDis(List<String> trainData, List<Distance> distance, String testString)
         {
             String[] arr_data = null, arr_test = testString.Split(',');
 
@@ -281,12 +253,12 @@ namespace IS
                 for (int j = 0; j < arr_data.Length - 1; j++)
                 {
                     if (Int32.TryParse(arr_data[j], out temp_i))
-                        dis  += Math.Pow(Int32.Parse(arr_test[j]) - temp_i, 2);
+                        dis += Math.Pow(Int32.Parse(arr_test[j]) - temp_i, 2);
                     else if (Double.TryParse(arr_data[j], out temp_d))
                         dis += Math.Pow(Double.Parse(arr_test[j]) - temp_d, 2);
                     else if (!arr_test[j].Equals(arr_data[j]))
                         dis++;
-                    //dis = Math.Sqrt(dis);
+                    dis = Math.Sqrt(dis);
                 }
                 dis_obj.Dis = dis;
                 dis_obj.Index = i;
@@ -294,11 +266,68 @@ namespace IS
             }
         }
 
+        private void calculateMinFucDisWithValidity(List<String> trainData, List<Distance> distance, String testString)
+        {
+            String[] arr_data = null, arr_test = testString.Split(',');
+
+            int temp_i;
+            double temp_d;
+            for (int i = 0; i < trainData.Count; i++)
+            {
+                Distance dis_obj = new Distance();
+                double dis = 0.0;
+                arr_data = trainData[i].Split(',');
+                for (int j = 0; j < arr_data.Length - 1; j++)
+                {
+                    if (Int32.TryParse(arr_data[j], out temp_i))
+                        dis += Math.Pow(Int32.Parse(arr_test[j]) - temp_i, 2);
+                    else if (Double.TryParse(arr_data[j], out temp_d))
+                        dis += Math.Pow(Double.Parse(arr_test[j]) - temp_d, 2);
+                    else if (!arr_test[j].Equals(arr_data[j]))
+                        dis++;
+                    dis = Math.Sqrt(dis);
+                }
+                dis_obj.Dis = validity[i] / (float)(dis+0.5);
+                dis_obj.Index = i;
+                distance.Add(dis_obj);
+            }
+        }
+
         private String caculateDistance(List<String> trainData, List<Distance> distance, String testString)
         {
-            calculateMinFucDis(trainData, distance ,testString);
+            calculateMinFucDis(trainData, distance, testString);
             sortDistance(distance);
             return getResultMining(trainData, distance);
+        }
+
+        private String caculateDistanceWithValidity(List<String> trainData, List<Distance> distance, String testString)
+        {
+            calculateMinFucDisWithValidity(trainData, distance, testString);
+            sortDistanceWithValidity(distance);
+            return getResultMining(trainData, distance);
+        }
+
+        private void calculateValidity()
+        {
+            tempdistance = new List<Distance>();
+            for (int i = 0; i < trainData.Count(); i++)
+            {
+                calculateMinFucDis(trainData, tempdistance, trainData[i]);
+                sortDistance(tempdistance);
+                int count = 0;
+                for (int j = 0; j < K; j++)
+                {
+                    String classi = trainData[i].Split(',').Last();
+                    String classx = trainData[tempdistance[j].Index].Split(',').Last();
+                    if (classi.Equals(classx))
+                        count++;
+                }
+                count--;
+                validity.Add((float)count / (float)K);
+                count = 0;
+                tempdistance.Clear();
+
+            }
         }
 
         private void sortDistance(List<Distance> distance)
@@ -310,12 +339,30 @@ namespace IS
                     if (distance[i].Dis > distance[j].Dis)
                     {
                         Distance temp_obj = distance[i];
-                
+
                         distance[i] = distance[j];
                         distance[j] = temp_obj;
                     }
                 }
             }
+        }
+
+        private void sortDistanceWithValidity(List<Distance> distance)
+        {
+            for (int i = 0; i < distance.Count; i++)
+            {
+                for (int j = distance.Count - 1; j > i; j--)
+                {
+                    if (distance[i].Dis < distance[j].Dis)
+                    {
+                        Distance temp_obj = distance[i];
+
+                        distance[i] = distance[j];
+                        distance[j] = temp_obj;
+                    }
+                }
+            }
+            int a = 1;
         }
 
         private String getResultMining(List<String> list_String, List<Distance> distance)
@@ -415,7 +462,6 @@ namespace IS
                 //test = txtTest.Text;
                 K = Int32.Parse(txtK.Text);
                 caculateDistance(trainData, distance, txtTest.Text);
-                //getResultMining(trainData, distance);
                 getResultToForm();
             }
         }
