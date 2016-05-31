@@ -127,7 +127,7 @@ namespace IS
             Random ran = new Random();
 
             int trainCount;
-            trainCount = (int) (input.Count() * 0.9) - 1;
+            trainCount = (int) (input.Count() * 0.7) - 1;
             int testCount = input.Count()-trainCount;
            
             List<String> tempi = new List<string>(input);
@@ -258,8 +258,8 @@ namespace IS
                         dis += Math.Pow(Double.Parse(arr_test[j]) - temp_d, 2);
                     else if (!arr_test[j].Equals(arr_data[j]))
                         dis++;
-                    dis = Math.Sqrt(dis);
                 }
+                dis = Math.Sqrt(dis);
                 dis_obj.Dis = dis;
                 dis_obj.Index = i;
                 distance.Add(dis_obj);
@@ -285,8 +285,8 @@ namespace IS
                         dis += Math.Pow(Double.Parse(arr_test[j]) - temp_d, 2);
                     else if (!arr_test[j].Equals(arr_data[j]))
                         dis++;
-                    dis = Math.Sqrt(dis);
                 }
+                dis = Math.Sqrt(dis);
                 dis_obj.Dis = validity[i] / (float)(dis+0.5);
                 dis_obj.Index = i;
                 distance.Add(dis_obj);
@@ -428,6 +428,9 @@ namespace IS
                 class_result = class_Items[index].Class_Item;   
             }
             distance.Clear();
+            for (int i = 0; i < class_Items.Count(); i++)
+                class_Items[i].Counter = 0;
+
             //return class_Items[index].Class_Item;
             return class_result;
         }
